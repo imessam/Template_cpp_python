@@ -17,6 +17,8 @@ add_executable(
 )
 
 target_include_directories(my_module_test PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../include)
+target_include_directories(my_module_test PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../../test-libs/another_module/cpp/include)
+
 
 target_link_libraries(
   my_module_test

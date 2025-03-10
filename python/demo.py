@@ -1,15 +1,16 @@
+import sys
+import os 
+
+base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+if base_path not in sys.path:
+    sys.path.insert(0, base_path)
+
+# from libs.another_module.python.modules import *
+
 from modules.i_interface_name import IInterface
 from modules.class_implemented_derived import ClassImplementedDerived
 
-import sys
-import yaml
-
 def main():
-
-    config_file = sys.argv[1]
-
-    with open(config_file, 'r') as file:
-        config = yaml.safe_load(file)
 
     class_implemented_derived = ClassImplementedDerived()
 
