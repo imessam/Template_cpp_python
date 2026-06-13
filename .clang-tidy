@@ -1,0 +1,25 @@
+---
+Checks: '-*,
+          modernize*,
+          cppcoreguidelines*,
+          bugprone*,
+          clang-analyzer*,
+          concurrency*,
+          google*,
+          readability*,
+          performance*,
+          -bugprone-easily-swappable-parameters,
+          -cppcoreguidelines-non-private-member-variables-in-classes'
+HeaderFilterRegex: '.*'
+WarningsAsErrors: '*'
+CheckOptions:
+  - key: modernize-use-auto.MinTypeLength
+    value: 5
+  - key: modernize-use-nullptr.NullMacros
+    value: 'NULL'
+  - key: cppcoreguidelines-avoid-magic-numbers.ReadMacroNames
+    value: 'true'
+  - key: google-readability-todo.SuppressWarningsFor
+    value: 'FIXME|TODO|HACK|XXX|KLUDGE'
+...
+
