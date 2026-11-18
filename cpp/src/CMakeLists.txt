@@ -44,19 +44,6 @@ if (ENABLE_ASAN_UBSAN)
     )
   endif()
 
-set(DEPS 
-
-  # yaml-cpp
-
-  # PkgConfig::gstreamer
-  # PkgConfig::gstreamer-sdp
-  # PkgConfig::gstreamer-app
-  # PkgConfig::gstreamer-video
-  # PkgConfig::gstreamer-pbutils
-
-  # ${OpenCV_LIBS}
-
-)
 
 ## Libraries setup
 
@@ -76,11 +63,30 @@ if (NOT TARGET my_module)
 
   include(${CMAKE_CURRENT_LIST_DIR}/../../libs/CMakeLists.txt)
 
-  foreach(dep ${DEPS})
-    target_link_libraries(my_module PRIVATE ${dep} my_module_sanitizers)
+foreach(_lib_include_dir
+  ${libs_include_my_module)
+  target_include_directories(my_module PUBLIC
+        ${_lib_include_dir}
+      )
   endforeach()
+  
+set(DEPS 
 
-  target_compile_features(my_module PUBLIC cxx_std_20)
+  # yaml-cpp
+
+  # PkgConfig::gstreamer
+  # PkgConfig::gstreamer-sdp
+  # PkgConfig::gstreamer-app
+  # PkgConfig::gstreamer-video
+  # PkgConfig::gstreamer-pbutils
+
+  # ${OpenCV_LIBS}
+
+)
+
+arget_link_libraries(my_module PUBLIC ${DEPS} ${libs_targets_my_module})
+
+  target_compile_features(my_module PUBLIC cxx_std_23)
 
   if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
       # Enable Warnings as Errors (Modern CMake 3.24+)
@@ -100,7 +106,7 @@ if (NOT TARGET my_module)
           "--fix"
           "--checks=-*,modernize*,cppcoreguidelines*,bugprone*,clang-analyzer*,concurrency*,google*,readability*,performance*,-bugprone-easily-swappable-parameters,-cppcoreguidelines-non-private-member-variables-in-classes"
           "--header-filter=^(?!.*(onnxruntime|opencv)).*$"
-          "--extra-arg-before=--driver-mode=g++"
+          "--extra-arg=-std=c++23"
       )
       set_target_properties(my_module PROPERTIES
           CXX_CLANG_TIDY "${CLANG_TIDY_ARGS}"
